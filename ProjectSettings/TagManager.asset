@@ -16,6 +16,9 @@ TagManager:
   - IFGemB
   - PlayerSust
   - Light2D
+  - DMG
+  - DMG1
+  - CoinHide
   layers:
   - Default
   - TransparentFX
@@ -23,8 +26,8 @@ TagManager:
   - GemsandCoins
   - Water
   - UI
-  - 
-  - 
+  - DMG
+  - DMG1
   - 
   - 
   - 
@@ -52,7 +55,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Gems&Coins
-    uniqueID: 2325203373
     locked: 0

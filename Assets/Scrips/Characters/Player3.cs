@@ -14,7 +14,7 @@ public class Player3 : Player
         movement();
         Jump();
 
-        if (this.transform.position.y <= -12)
+        if (this.transform.position.y <= -20)
         {
             dead();
         }

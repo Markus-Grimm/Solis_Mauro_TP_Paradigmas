@@ -16,21 +16,22 @@ public class GameManager : MonoBehaviour
 
     public int life, state;
 
-    public GameObject GY, GR, GB, GG;
-    public int cantGY, cantGR, cantGB, cantGG;
+    public GameObject[] Gemas;
+    public int[] CantGemas;
 
     public int changeop, change;
 
     //Gemas
-    public GameObject gemR, gemB, gemG, gemY, coin;
-
-    public Text gemR_txt, gemB_txt, gemG_txt, gemY_txt, coins_txt;
+    public GameObject coin;
+    public GameObject[] GemsUI;
+    public Text coins_txt;
+    public Text[] GemsText; 
 
     public int coins;
 
     //Cambio
     public SpriteRenderer SpriteRenderer;
-    public Sprite red, blue, green, yellow;
+    public Sprite[] Sprites;
 
     public Animator anim;
 
@@ -41,20 +42,21 @@ public class GameManager : MonoBehaviour
         lose = false;
         reset = false;
 
-        GY = GameObject.FindGameObjectWithTag("IFGemY");
-        GY.SetActive(false);
-        cantGY = 0; 
-        GR = GameObject.FindGameObjectWithTag("IFGemR");
-        cantGR = 0; 
-        GG = GameObject.FindGameObjectWithTag("IFGemG");
-        GG.SetActive(false); 
-        cantGG = 0; 
-        GB = GameObject.FindGameObjectWithTag("IFGemB");
-        GB.SetActive(false); 
-        cantGB = 0;
+        for (int i = 0; i < CantGemas.Length; i++)
+        {
+            CantGemas[i] = 0;
+        }
 
-        changeop = 0;
-        change = 2;
+        for (int i = 0; i < GemsUI.Length; i++)
+        {
+            if (i != 1)
+            {
+                GemsUI[i].SetActive(false);
+            }
+        }
+
+        changeop = 1;
+        change = 1;
 
         SpriteRenderer = player.GetComponent<SpriteRenderer>();
 
@@ -99,120 +101,108 @@ public class GameManager : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.E)) && change != changeop)
         {
-            Change(changeop);            
+            if (CantGemas[changeop] > 0)
+            {
+                Change(changeop);
+            }                        
         }
     }
 
     public void PtsUp(int x)
     {
-        coins = coins + x;
-        coins_txt.text = "x" + coins;
+        if (coins + x < 20)
+        {
+            coins = coins + x;
+            coins_txt.text = "x" + coins;
+        }
+        else
+        {
+            CantGemas[3] = CantGemas[3] + 1;
+            GemsText[3].text = "x" + CantGemas[3];
+            coins = coins + x - 20;
+            coins_txt.text = "x" + coins;
+        }
+        
+        
     }
 
     public void ChangeOption(int opt)
-    {
-        switch (opt)
+    {        
+        for (int i = 0; i < Gemas.Length; i++)
         {
-            case 0:
-                gemR.SetActive(true);
-                gemB.SetActive(false);
-                gemG.SetActive(false);
-                gemY.SetActive(false);
-                break;
-
-            case 1:
-                gemR.SetActive(false);
-                gemB.SetActive(true);
-                gemG.SetActive(false);
-                gemY.SetActive(false);
-                break;
-
-            case 2:
-                gemR.SetActive(false);
-                gemB.SetActive(false);
-                gemG.SetActive(true);
-                gemY.SetActive(false);
-                break;
-
-            case 3:
-                gemR.SetActive(false);
-                gemB.SetActive(false);
-                gemG.SetActive(false);
-                gemY.SetActive(true);
-                break;
-
-            default:
-                break;
-        }
+            if (opt == i)
+            {
+                Gemas[i].SetActive(true);
+            }
+            else
+            {
+                Gemas[i].SetActive(false);
+            }
+        }        
     }
+
 
     public void Change(int opt)
     {
         change = changeop;
 
-        /*   Cambiar esto por un for
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == opt)
+            {
+                SpriteRenderer.sprite = Sprites[i];
+                CantGemas[i] = CantGemas[i] - 1;
+                GemsText[i].text = "x" + CantGemas[i];
+            }
+        }
+
+        player.GetComponent<Player0>().enabled = false;
+        player.GetComponent<Player1>().enabled = false;
+        player.GetComponent<Player2>().enabled = false;
+        player.GetComponent<Player3>().enabled = false;
+
         switch (opt)
         {
             case 0:
-                if (cantGR > 0)
-                {
-                    SpriteRenderer.sprite = red;
-                    cantGR = cantGR - 1;
-                    gemR_txt.text = "x" + cantGR;
-                    player.GetComponent<Player0>().enabled = true;                    
-                    player.GetComponent<Player1>().enabled = false;
-                    player.GetComponent<Player2>().enabled = false;
-                    player.GetComponent<Player3>().enabled = false;
+                {    
+                    player.GetComponent<Player0>().enabled = true;
                     anim.SetBool("New Bool", false);
+                    player.GetComponent<Rigidbody2D>().gravityScale = 6;
+                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
                 }
                 break;
 
             case 1:
-                if (cantGB > 0)
                 {
-                    SpriteRenderer.sprite = blue;
-                    cantGB = cantGB - 1;
-                    gemB_txt.text = "x" + cantGB;
-                    player.GetComponent<Player0>().enabled = false;
                     player.GetComponent<Player1>().enabled = true;
-                    player.GetComponent<Player2>().enabled = false;
-                    player.GetComponent<Player3>().enabled = false;
                     anim.SetBool("New Bool", true);
+                    player.GetComponent<Rigidbody2D>().gravityScale = 6;
+                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
                 }
                 break;
 
             case 2:
-                if (cantGG > 0)
                 {
-                    SpriteRenderer.sprite = green;
-                    cantGG = cantGG - 1;
-                    gemG_txt.text = "x" + cantGG;
-                    player.GetComponent<Player0>().enabled = false;
-                    player.GetComponent<Player1>().enabled = false;
                     player.GetComponent<Player2>().enabled = true;
-                    player.GetComponent<Player3>().enabled = false;
                     anim.SetBool("New Bool", true);
+                    player.GetComponent<Rigidbody2D>().gravityScale = 8;
+                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
                 }
                 break;
 
             case 3:
-                if (cantGY > 0)
                 {
-                    SpriteRenderer.sprite = yellow;
-                    cantGY = cantGY - 1;
-                    gemY_txt.text = "x" + cantGY;
-                    player.GetComponent<Player0>().enabled = false;
-                    player.GetComponent<Player1>().enabled = false;
-                    player.GetComponent<Player2>().enabled = false;
                     player.GetComponent<Player3>().enabled = true;
                     anim.SetBool("New Bool", true);
+                    player.GetComponent<Rigidbody2D>().gravityScale = 6;
+                    player.GetComponent<Rigidbody2D>().mass = 0.4f;
                 }
                 break;
 
             default:
                 break;
         
-        }*/
+        }
     }
-        
+
 }

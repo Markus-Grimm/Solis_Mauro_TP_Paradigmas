@@ -64,8 +64,18 @@ public abstract class Player : Character
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if ((collision.transform.tag == "DMG") || (collision.gameObject.layer == 6))
+        {
+            if (gc.GetComponent<GameManager>().change != 3)
+            {
+                dead();
+            }
+        }
 
+        if ((collision.transform.tag == "DMG1") || (collision.gameObject.layer == 7))
+        {
+            dead();
+        }
     }
 
     protected override void dead() 
