@@ -2,26 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Player : Character
+public class Player : Character
 {
     //protected string name;
     //protected float vel;
 
-    //protected GameObject gc;
 
     protected bool canJump;
 
     protected int changeop;
     protected int change;
 
+    //Events
+    private delegate void Items();
+    Items evento;
+
+    private int gem = 1;
+
     private void Start()
     {
-        //gc = GameObject.FindGameObjectWithTag("GameController");
+        gc = GameObject.FindGameObjectWithTag("GameController");
     }
 
     private void Update()
     {
-
+        movement();
+        Jump();
+        
+        if (this.transform.position.y <= -20)
+        {
+            dead();
+        }
     }
     
     protected override void movement() 
@@ -64,18 +75,76 @@ public abstract class Player : Character
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.transform.tag == "DMG") || (collision.gameObject.layer == 6))
+        if ((collision.gameObject.layer == 6))
         {
-            if (gc.GetComponent<GameManager>().change != 3)
+            if ((collision.transform.tag == "DMG") && (gc.GetComponent<GameManager>().change != 3))
             {
                 dead();
             }
+
+            if (collision.transform.tag == "Enemy")
+            {
+                if (gc.GetComponent<GameManager>().change != 3)
+                {
+                    dead();
+                }
+                else
+                {
+                    GameObject.Destroy(collision.gameObject);
+                }
+                
+            }
+            
         }
 
         if ((collision.transform.tag == "DMG1") || (collision.gameObject.layer == 7))
         {
             dead();
         }
+
+        if (collision.gameObject.layer == 3)
+        {
+            for (int i = 0; i < gc.GetComponent<GameManager>().Gemas.Length; i++)
+        {
+            if (collision.transform.tag == gc.GetComponent<GameManager>().Gemas[i].transform.tag)
+            {
+                gem = i;
+
+                if (evento != null)
+                {
+                    evento -= AddCoins;
+                    evento -= AddGems;
+                }
+                
+                evento += AddCoins;
+                evento += AddGems;
+                evento();
+
+                GameObject.Destroy(collision.gameObject);
+            }
+        }
+        }
+
+        
+
+    }
+
+    private void AddCoins()
+    {
+        if (gc.GetComponent<GameManager>().change == 2)
+        {
+            gc.GetComponent<GameManager>().PtsUp(3);
+        }
+        else
+        {
+            gc.GetComponent<GameManager>().PtsUp(1);
+        }
+    }
+
+    private void AddGems()
+    {        
+        gc.GetComponent<GameManager>().CantGemas[gem] = gc.GetComponent<GameManager>().CantGemas[gem] + 1;
+        gc.GetComponent<GameManager>().GemsText[gem].text = "x" + gc.GetComponent<GameManager>().CantGemas[gem];
     }
 
     protected override void dead() 

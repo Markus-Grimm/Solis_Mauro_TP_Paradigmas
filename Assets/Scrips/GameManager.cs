@@ -59,11 +59,6 @@ public class GameManager : MonoBehaviour
         change = 1;
 
         SpriteRenderer = player.GetComponent<SpriteRenderer>();
-
-        player.GetComponent<Player0>().enabled = false;
-        player.GetComponent<Player1>().enabled = false;
-        player.GetComponent<Player2>().enabled = true;
-        player.GetComponent<Player3>().enabled = false;
     }
 
     void Update()
@@ -122,8 +117,6 @@ public class GameManager : MonoBehaviour
             coins = coins + x - 20;
             coins_txt.text = "x" + coins;
         }
-        
-        
     }
 
     public void ChangeOption(int opt)
@@ -153,56 +146,34 @@ public class GameManager : MonoBehaviour
                 SpriteRenderer.sprite = Sprites[i];
                 CantGemas[i] = CantGemas[i] - 1;
                 GemsText[i].text = "x" + CantGemas[i];
-            }
-        }
-
-        player.GetComponent<Player0>().enabled = false;
-        player.GetComponent<Player1>().enabled = false;
-        player.GetComponent<Player2>().enabled = false;
-        player.GetComponent<Player3>().enabled = false;
-
-        switch (opt)
-        {
-            case 0:
-                {    
-                    player.GetComponent<Player0>().enabled = true;
+                if (i == 0)
+                {
                     anim.SetBool("New Bool", false);
-                    player.GetComponent<Rigidbody2D>().gravityScale = 6;
-                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
                 }
-                break;
-
-            case 1:
+                else
                 {
-                    player.GetComponent<Player1>().enabled = true;
                     anim.SetBool("New Bool", true);
-                    player.GetComponent<Rigidbody2D>().gravityScale = 6;
-                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
                 }
-                break;
 
-            case 2:
+                if (i == 2)
                 {
-                    player.GetComponent<Player2>().enabled = true;
-                    anim.SetBool("New Bool", true);
                     player.GetComponent<Rigidbody2D>().gravityScale = 8;
-                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
                 }
-                break;
-
-            case 3:
+                else
                 {
-                    player.GetComponent<Player3>().enabled = true;
-                    anim.SetBool("New Bool", true);
                     player.GetComponent<Rigidbody2D>().gravityScale = 6;
+                }
+
+                if (i == 3)
+                {
                     player.GetComponent<Rigidbody2D>().mass = 0.4f;
                 }
-                break;
-
-            default:
-                break;
-        
-        }
+                else
+                {
+                    player.GetComponent<Rigidbody2D>().mass = 0.24f;
+                }
+            }
+        }       
     }
 
 }

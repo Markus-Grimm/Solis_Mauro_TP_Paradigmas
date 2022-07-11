@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8763349490197889322}
   - component: {fileID: 1501202192605372049}
   - component: {fileID: 6201984370049930709}
-  - component: {fileID: 8885130504754897133}
   m_Layer: 3
   m_Name: gemRed
   m_TagString: GemR
@@ -110,15 +109,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
---- !u!114 &8885130504754897133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660660549966200612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea0d4e025a4386d42bc6bfa45d3dba11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

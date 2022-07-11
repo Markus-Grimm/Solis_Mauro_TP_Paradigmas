@@ -46,9 +46,6 @@ public class Coin : Item, ICoinsandGemsUP
 
     //Cosa de events
 
-    delegate void ShowingAndHiding(bool act);
-    ShowingAndHiding evento;
-
     private void Update()
     {
         if (this.tag == "CoinHide")

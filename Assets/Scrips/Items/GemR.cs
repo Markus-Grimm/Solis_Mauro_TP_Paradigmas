@@ -30,6 +30,9 @@ public class GemR : Item, ICoinsandGemsUP
         gc.GetComponent<GameManager>().GemsText[x].text = "x" + gc.GetComponent<GameManager>().CantGemas[x];        
     }
 
+    delegate void Metodo();
+    Metodo mimetodo;
+
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag == "Player")

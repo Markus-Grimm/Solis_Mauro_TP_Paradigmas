@@ -19,6 +19,7 @@ TagManager:
   - DMG
   - DMG1
   - CoinHide
+  - Enemy
   layers:
   - Default
   - TransparentFX
