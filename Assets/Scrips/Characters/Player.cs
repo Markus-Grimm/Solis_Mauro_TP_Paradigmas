@@ -19,9 +19,12 @@ public class Player : Character
 
     private int gem = 1;
 
+    private Animator animator;
+
     private void Start()
     {
         gc = GameObject.FindGameObjectWithTag("GameController");
+        animator = this.gameObject.GetComponent<Animator>();
     }
 
     private void Update()
@@ -40,10 +43,11 @@ public class Player : Character
         // Movimiento izquierda
         if ((Input.GetKey("left")) || (Input.GetKey(KeyCode.A)))
         {
-
+            animator.SetBool("mov", true);
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
-            gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1000f * Time.deltaTime, 0));
+            gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1000f * Time.deltaTime, 0));            
         }
+        
 
         //Movimiento derecha
         if ((Input.GetKey("right")) || (Input.GetKey(KeyCode.D)))
@@ -51,6 +55,12 @@ public class Player : Character
 
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
             gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(1000f * Time.deltaTime, 0));
+            animator.SetBool("mov", true);
+        }
+
+        if ((Input.GetKeyUp("left")) || (Input.GetKeyUp(KeyCode.A)) || (Input.GetKeyUp("right")) || (Input.GetKeyUp(KeyCode.D)))
+        {
+            animator.SetBool("mov", false);
         }
     }
 
@@ -59,22 +69,30 @@ public class Player : Character
         //Salto
         if (canJump && (Input.GetKeyDown("up")) || (canJump && Input.GetKeyDown(KeyCode.Space)))
         {
-            
+            //animator.SetBool("mov", false);
+            animator.SetBool("jump", true); 
             canJump = false;
-            gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 300f));
+            gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 300f));            
         }
     }
 
-    protected void OnCollisionStay2D(Collision2D collision)
+   /* protected void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.transform.tag == "Ground")
         {
-            canJump = true;
+            //animator.SetBool("mov", false);
+            animator.SetBool("jump", true);
         }
-    }
+    }*/
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.transform.tag == "Ground")
+        {
+            animator.SetBool("jump", false); 
+            canJump = true;            
+        }
+
         if ((collision.gameObject.layer == 6))
         {
             if ((collision.transform.tag == "DMG") && (gc.GetComponent<GameManager>().change != 3))
@@ -91,10 +109,15 @@ public class Player : Character
                 else
                 {
                     GameObject.Destroy(collision.gameObject);
-                }
-                
-            }
-            
+                }                
+            }            
+        }
+
+
+        if (collision.transform.tag == "Finish")
+        {
+            this.gameObject.GetComponent<Rigidbody2D>().simulated = false;
+            gc.GetComponent<GameManager>().win = true;
         }
 
         if ((collision.transform.tag == "DMG1") || (collision.gameObject.layer == 7))

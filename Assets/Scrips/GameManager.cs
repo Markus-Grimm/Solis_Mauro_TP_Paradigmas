@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public new Camera camera;
 
-    public bool lose, reset;
+    public bool lose, reset, win;
     public Text GameOver;
 
     public int life, state;
@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
         
         lose = false;
         reset = false;
+        win = false;
 
         for (int i = 0; i < CantGemas.Length; i++)
         {
@@ -78,6 +79,13 @@ public class GameManager : MonoBehaviour
         {
             reset = false;
             SceneManager.LoadScene("Gameplay");
+        }
+
+        if (win)
+        {
+            GameOver.text = "Game Finish!\nPress T to restart";
+            //player = GameObject.FindGameObjectWithTag("PlayerSust");
+            reset = true;
         }
         
         if (Input.GetKeyDown(KeyCode.R))
@@ -146,14 +154,7 @@ public class GameManager : MonoBehaviour
                 SpriteRenderer.sprite = Sprites[i];
                 CantGemas[i] = CantGemas[i] - 1;
                 GemsText[i].text = "x" + CantGemas[i];
-                if (i == 0)
-                {
-                    anim.SetBool("New Bool", false);
-                }
-                else
-                {
-                    anim.SetBool("New Bool", true);
-                }
+                anim.SetInteger("Anim", i);
 
                 if (i == 2)
                 {

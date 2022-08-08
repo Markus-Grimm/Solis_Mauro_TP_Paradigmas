@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabName: Mouse
   prefab: {fileID: 7526643208696128443, guid: 68db2b6e3ac6f5b46a4d642b477eca43, type: 3}
-  cant: 4
+  cant: 6
   spawnPoint:
   - {x: 0.59, y: 2.59, z: 0}
   - {x: 6.2, y: -0.382, z: 0}
   - {x: -23.11156, y: 17.619, z: 0}
   - {x: 5.50499, y: 14.61506, z: 0}
+  - {x: 79.73, y: -7.37, z: 0}
+  - {x: 54.64, y: -3.37, z: 0}
+  - {x: 90.47, y: -6.35, z: 0}
