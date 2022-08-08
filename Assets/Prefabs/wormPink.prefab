@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5371705340671922798}
   - component: {fileID: 6705370334152780369}
   - component: {fileID: 2588794117548105852}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wormPink
   m_TagString: Enemy
   m_Icon: {fileID: 0}

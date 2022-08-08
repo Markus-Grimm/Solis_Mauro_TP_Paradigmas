@@ -36,6 +36,11 @@ public class Player : Character
         {
             dead();
         }
+
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            gameObject.transform.position = new Vector3(96f, -4f, 0);
+        }
     }
     
     protected override void movement() 
